@@ -30,7 +30,10 @@ video_ids=$(cat target.txt)
 for video_id in $video_ids
 do
     # Get title of the video
-    title=$(curl -s "https://fast.wistia.net/embed/medias/$video_id.json" | jq '.media.name' | cut -d "/" -f 4 | tr -d '"' | cut -d "_" -f 2- | sed -E 's/(\.mp4|\.mov)//g')
+
+    json=$(curl -s "https://fast.wistia.net/embed/medias/$video_id.json")
+
+    title=$(echo $json | jq '.media.name' | cut -d "/" -f 4 | tr -d '"' | cut -d "_" -f 2- | sed -E 's/(\.mp4|\.mov)//g')
     echo "Downloading video: $title"
 
     if [ -f "$target_dir/$title.mp4" ]; then
@@ -39,10 +42,8 @@ do
     fi
 
     # Download the video
-    curl -s "https://fast.wistia.net/embed/iframe/$video_id" \
-    | grep iframeInit \
-    | sed -e 's/W.iframeInit(\(.*\), {});/\1/' \
-    | jq '[.assets[] | select(.display_name == "'$quality'").url] | first' \
+    echo $json \
+    | jq '[.media.assets[] | select(.display_name == "'$quality'").url] | first' \
     | sed 's/bin/mp4/' \
     | xargs curl -s --output "$target_dir/$title.mp4"
 

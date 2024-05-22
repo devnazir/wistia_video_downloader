@@ -17,7 +17,3 @@ bash script.sh <quality> <topic>
 # topic: the name of the folder where the video will be saved
 # Example: bash script.sh 1080p "Data Structures and Algorithms"
 ```
-
-### Disclaimer
-
-This script is for educational purposes only. I am not responsible for any misuse of this script.
