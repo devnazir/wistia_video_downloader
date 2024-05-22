@@ -42,9 +42,9 @@ do
     curl -s "https://fast.wistia.net/embed/iframe/$video_id" \
     | grep iframeInit \
     | sed -e 's/W.iframeInit(\(.*\), {});/\1/' \
-    | jq '.assets[] | select(.display_name == "'$quality'").url' \
+    | jq '[.assets[] | select(.display_name == "'$quality'").url] | first' \
     | sed 's/bin/mp4/' \
-    | xargs curl -so "$target_dir/$title.mp4"
+    | xargs curl -s --output "$target_dir/$title.mp4"
 
     if [ $? -eq 0 ]; then
         echo -e "\e[32mVideo downloaded successfully\e[0m\n"
