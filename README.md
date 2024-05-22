@@ -6,7 +6,7 @@ This is a simple script to download videos from Wistia.
 
 1. Clone this repository
 2. Install `jq` https://jqlang.github.io/jq/
-3. Copy video ID from the video URL (right-click on the video and select "Copy link and thumbnail")
+3. Copy video ID value from the video URL (right-click on the video and select "Copy link and thumbnail"), there will be query like `?wvideo=xxxxx`
 4. Paste the video ID in the target.txt (look at the target.example.txt)
 5. Run the script
 
